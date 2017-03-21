@@ -6,7 +6,6 @@ from config import DEBUG
 def get_images(path, pattern="*.png"):
     return glob.glob(path + '/**/' + pattern, recursive=True)
 
-
 def showimg(img, title="image"):
     """
     Show an image if DEBUG is activated

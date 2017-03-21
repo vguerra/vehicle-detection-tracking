@@ -114,15 +114,18 @@ def train_classifier(images_path):
 
     return svc, X_scaler
 
-if __name__ == '__main__':
-    args = parse_args()
-
-    pickle_file = './data/classifier.p'
+def get_clf_and_scaler(data_path, pickle_file='./data/classifier.p'):
     clf, scaler = load_model(pickle_file)
-
     if clf == None:
         clf, scaler = train_classifier(args.data_path)
         save_model(clf, scaler, pickle_file)
+
+    return clf, scaler
+
+if __name__ == '__main__':
+    args = parse_args()
+
+    clf, scaler = get_clf_and_scaler(args.data_path)
 
     image = mpimg.imread('./test_images/test1.jpg')
     draw_image = np.copy(image)
