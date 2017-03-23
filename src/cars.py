@@ -10,6 +10,8 @@ import cv2
 
 # Define a single function that can extract features using hog sub-sampling and make predictions
 def find_cars(img, scale, svc, X_scaler):
+    """
+    """
     
     draw_img = np.copy(img)
     img = img.astype(np.float32)/255
