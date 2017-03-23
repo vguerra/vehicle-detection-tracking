@@ -1,5 +1,6 @@
 from util import *
 from config import *
+from windows import *
 
 from features import extract_features
 from windows import *
@@ -8,6 +9,8 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 import matplotlib.image as mpimg
 
+from moviepy.editor import VideoFileClip
+
 import numpy as np
 import time
 import pickle
@@ -15,8 +18,12 @@ import os.path
 
 import matplotlib.pyplot as plt
 
-CAR_CLASS = 1
-NON_CAR_CLASS = 0
+from cars import find_cars
+from scipy.ndimage.measurements import label
+
+from collections import deque
+
+all_heatmaps = deque()
 
 def load_model(pickle_file):
     """
@@ -122,28 +129,61 @@ def get_clf_and_scaler(data_path, pickle_file='./data/classifier.p'):
 
     return clf, scaler
 
+def process(image):
+    heat = np.zeros_like(image[:,:,0]).astype(np.float)
+    bboxes = find_cars(image, SCALE, clf, scaler)
+    
+    heat = add_heat(heat, bboxes)
+    heat = apply_threshold(heat, HEATMAP_THRESHOLD)
+
+    all_heatmaps.append(heat)
+
+    if (len(all_heatmaps) > 5):
+        all_heatmaps.popleft()
+
+    sum_heat = np.zeros_like(heat)
+    for h in all_heatmaps:
+        sum_heat += h
+    avg_heatmap = sum_heat/len(all_heatmaps)
+
+    # Visualize the heatmap when displaying    
+    heatmap = np.clip(avg_heatmap, 0, 255)
+
+
+    # Find final boxes from heatmap using label function
+    labels = label(heatmap)
+    draw_img = draw_labeled_bboxes(np.copy(image), labels)
+
+    draw_img = add_stats(draw_img, labels[1])
+
+    # showimg(draw_img)
+
+    return draw_img
+
+
 if __name__ == '__main__':
     args = parse_args()
 
     clf, scaler = get_clf_and_scaler(args.data_path)
 
-    image = mpimg.imread('./test_images/test1.jpg')
-    draw_image = np.copy(image)
-    image = image.astype(np.float32)/255
+    # for idx in range(1, 7):
+    #     image = mpimg.imread('./test_images/test' + str(idx) + '.jpg')
+    #     process(image)
+    
+    #image = image.astype(np.float32)/255
 
-    windows = slide_window(image, x_start_stop=X_START_STOP, y_start_stop=Y_START_STOP, 
-                    xy_window=(96, 96), xy_overlap=(0.5, 0.5))
+    # windows = slide_window(image, x_start_stop=X_START_STOP, y_start_stop=Y_START_STOP, 
+    #                 xy_window=(96, 96), xy_overlap=(0.5, 0.5))
 
-    hot_windows = search_windows(image, windows, clf, scaler, color_space=COLOR_SPACE, 
-                            spatial_size=SPATIAL_SIZE, hist_bins=HIST_BINS, 
-                            orient=ORIENT, pix_per_cell=PIX_PER_CELL, 
-                            cell_per_block=CELL_PER_BLOCK, 
-                            hog_channel=HOG_CHANNEL, spatial_feat=SPATIAL_FEAT, 
-                            hist_feat=HIST_FEAT, hog_feat=HOG_FEAT)                       
+    # hot_windows = search_windows(image, windows, clf, scaler, color_space=COLOR_SPACE, 
+    #                         spatial_size=SPATIAL_SIZE, hist_bins=HIST_BINS, 
+    #                         orient=ORIENT, pix_per_cell=PIX_PER_CELL, 
+    #                         cell_per_block=CELL_PER_BLOCK, 
+    #                         hog_channel=HOG_CHANNEL, spatial_feat=SPATIAL_FEAT, 
+    #                         hist_feat=HIST_FEAT, hog_feat=HOG_FEAT)                       
 
-    window_img = draw_boxes(draw_image, hot_windows, color=(0, 0, 255), thick=6)                    
+    # window_img = draw_boxes(draw_image, hot_windows, color=(0, 0, 255), thick=6)                    
 
-    plt.imshow(window_img)
-    plt.show()
-
-        
+    video = VideoFileClip("project_video.mp4")
+    output_video = video.fl_image(process)
+    output_video.write_videofile("output.mp4", audio=False)        
