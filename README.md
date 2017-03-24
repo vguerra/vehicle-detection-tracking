@@ -68,6 +68,8 @@ I tried various combinations of parameters and...
 
 I trained a linear SVM using...
 
+---
+
 ### Sliding Window Search
 
 #### 1. Describe how (and identify where in your code) you implemented a sliding window search.  How did you decide what scales to search and how much to overlap windows?
@@ -81,6 +83,7 @@ I decided to search random window positions at random scales all over the image 
 Ultimately I searched on two scales using YCrCb 3-channel HOG features plus spatially binned color and histograms of color in the feature vector, which provided a nice result.  Here are some example images:
 
 ![alt text][image4]
+
 ---
 
 ### Output Video
@@ -102,7 +105,6 @@ Here is the output of `scipy.ndimage.measurements.label()` on the integrated hea
 
 Here the resulting bounding boxes are drawn onto the last frame in the series:
 ![alt text][image7]
-
 
 ---
 
