@@ -3,27 +3,14 @@ from config import *
 from windows import *
 
 from features import extract_features
-from windows import *
 from sklearn.svm import LinearSVC
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
-import matplotlib.image as mpimg
-
-from moviepy.editor import VideoFileClip
 
 import numpy as np
 import time
 import pickle
 import os.path
-
-import matplotlib.pyplot as plt
-
-from cars import find_cars
-from scipy.ndimage.measurements import label
-
-from collections import deque
-
-all_heatmaps = deque()
 
 def load_model(pickle_file):
     """
@@ -61,6 +48,15 @@ def save_model(clf, scaler, pickle_file):
     f.close()
 
 def train_classifier(images_path):
+    """
+    Trains a SVM to recognice cars given training images.
+
+    Args:
+        images_path: String, path to training data.
+    
+    Returns:
+        Tuple of trainned classifier and scaler object to be used for future predictions
+    """
     car_imgs = get_images(images_path + '/vehicles/')
     non_car_imgs = get_images(images_path + '/non-vehicles/')
 
@@ -122,55 +118,22 @@ def train_classifier(images_path):
     return svc, X_scaler
 
 def get_clf_and_scaler(data_path, pickle_file='./data/classifier.p'):
+    """
+    Looks for a trainned classifier in the cache,
+    otherwise proceeds with trainning process.
+
+    Args:
+        data_path: String, path to cached objects and trainning data.
+        pickle_file: String, path to cached objects.
+
+    Returns:
+        Tuple of trainned classifier and scaler object to be used for future predictions
+    """
     clf, scaler = load_model(pickle_file)
     if clf == None:
-        clf, scaler = train_classifier(args.data_path)
+        clf, scaler = train_classifier(data_path)
         save_model(clf, scaler, pickle_file)
 
     return clf, scaler
 
-def process(image):
-    heat = np.zeros_like(image[:,:,0]).astype(np.float)
-    bboxes = []
-    for scale in SCALE_VALUES:
-        bboxes += find_cars(image, scale, clf, scaler)
-    
-    heat = add_heat(heat, bboxes)
-    heat = apply_threshold(heat, HEATMAP_THRESHOLD)
 
-    all_heatmaps.append(heat)
-
-    if (len(all_heatmaps) > HEATMAP_WINDOW_SIZE):
-        all_heatmaps.popleft()
-
-    sum_heat = np.zeros_like(heat)
-    for h in all_heatmaps:
-        sum_heat += h
-    avg_heatmap = sum_heat/len(all_heatmaps)
-
-    # Visualize the heatmap when displaying    
-    heatmap = np.clip(avg_heatmap, 0, 255)
-
-    # Find final boxes from heatmap using label function
-    labels = label(heatmap)
-    draw_img = draw_labeled_bboxes(np.copy(image), labels)
-
-    draw_img = add_stats(draw_img, labels[1])
-
-    showimg(draw_img)
-
-    return draw_img
-
-
-if __name__ == '__main__':
-    args = parse_args()
-
-    clf, scaler = get_clf_and_scaler(args.data_path)
-
-    # for idx in range(1, 7):
-    #     image = mpimg.imread('./test_images/test' + str(idx) + '.jpg')
-    #     process(image)
-
-    video = VideoFileClip("project_video.mp4")
-    output_video = video.fl_image(process)
-    output_video.write_videofile("output.mp4", audio=False)        
