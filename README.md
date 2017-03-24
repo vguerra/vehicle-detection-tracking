@@ -4,6 +4,8 @@
 * [Rubric](#rubric)
 * [Writeup](#writeup)
 * [The Code](#the-code)
+* [Histogram of Oriented Gradients](#histogram-of-oriented-gradients)
+* [Sliding Window Search](#sliding-window-search)
 * [Output video](#output-video)
 * [Discussion](#discussion)
 
@@ -38,10 +40,10 @@ The project is organized as follows:
     - [`features.py`](https://github.com/vguerra/vehicle-detection-tracking/blob/master/src/features.py): All code related to feature extraction for images.
     - [`train_classifier`](https://github.com/vguerra/vehicle-detection-tracking/blob/master/src/train_classifier.py): Implementing all logic needed to train our classifier.
     - [`util.py`](https://github.com/vguerra/vehicle-detection-tracking/blob/master/src/util.py): Utilities for debugging purposes.
-    - [`windows.py`](https://github.com/vguerra/vehicle-detection-tracking/blob/master/src/windows.py): All code related to search windows and drawing boxes on images.
+    - [`windows.py`](https://github.com/vguerra/vehicle-detection-tracking/blob/master/src/windows.py): All code related to drawing boxes on images.
 ---
 
-###Histogram of Oriented Gradients (HOG)
+### Histogram of Oriented Gradients (HOG)
 
 ####1. Explain how (and identify where in your code) you extracted HOG features from the training images.
 
@@ -66,7 +68,7 @@ I tried various combinations of parameters and...
 
 I trained a linear SVM using...
 
-###Sliding Window Search
+### Sliding Window Search
 
 ####1. Describe how (and identify where in your code) you implemented a sliding window search.  How did you decide what scales to search and how much to overlap windows?
 
@@ -81,7 +83,7 @@ Ultimately I searched on two scales using YCrCb 3-channel HOG features plus spat
 ![alt text][image4]
 ---
 
-### Video Implementation
+### Output Video
 
 ####1. Provide a link to your final video output.  Your pipeline should perform reasonably well on the entire project video (somewhat wobbly or unstable bounding boxes are ok as long as you are identifying the vehicles most of the time with minimal false positives.)
 Here's a [link to my video result](./project_video.mp4)
