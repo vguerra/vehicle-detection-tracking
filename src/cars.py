@@ -8,16 +8,24 @@ import numpy as np
 import pickle
 import cv2
 
-# Define a single function that can extract features using hog sub-sampling and make predictions
 def find_cars(img, scale, svc, X_scaler):
     """
+    Finds rectangles that enclose cars found in the given Image.
+
+    Args:
+        img: Array, Input Image.
+        scale: Scaling factor to use for swiping the image.
+        svc: Object, the classifier.
+        X_scaler: Object, scaler to normalize classifier input.mro
+
+    Returns:
+        A list of rectangle definitios.
     """
     
     draw_img = np.copy(img)
     img = img.astype(np.float32)/255
     
     img_tosearch = img[Y_START_STOP[0]:Y_START_STOP[1],:,:]
-    #ctrans_tosearch = convert_color(img_tosearch, conv='RGB2YCrCb')
     ctrans_tosearch = convert_color(img_tosearch, color_space=COLOR_SPACE)
     
     if scale != 1:

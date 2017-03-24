@@ -9,7 +9,6 @@ FONT = cv2.FONT_HERSHEY_PLAIN
 FONT_COLOR = (255, 255, 255)
 FONT_SIZE = 2.0
 
-
 def get_images(path, pattern="*.png"):
     return glob.glob(path + '/**/' + pattern, recursive=True)
 
@@ -67,8 +66,6 @@ def parse_args():
     """
     parser = argparse.ArgumentParser()
     parser.add_argument('data_path', help="Path to directory containing training images")
-    # parser.add_argument('--video', help="Input video")
-    # parser.add_argument('--image', help="Input image")
-    # parser.add_argument('--output', help="output video file name")
+
     return parser.parse_args()
 
