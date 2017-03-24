@@ -30,7 +30,15 @@ This document that you are reading! :).
 ---
 
 ### The Code
-
+The project is organized as follows:
+* [`data`](https://github.com/vguerra/vehicle-detection-tracking/tree/master/data) folder which is where the cached objects for classifier and scaler resides, as well as training data.
+* [`src`](https://github.com/vguerra/vehicle-detection-tracking/tree/master/src) folder containing all source code:
+    - [`cars.py`](https://github.com/vguerra/vehicle-detection-tracking/blob/master/src/cars.py): Implementing general algorith to finds car in an image.
+    - [`config.py`](https://github.com/vguerra/vehicle-detection-tracking/blob/master/src/config.py): All configuration parameters used throught the pipeline.
+    - [`features.py`](https://github.com/vguerra/vehicle-detection-tracking/blob/master/src/features.py): All code related to feature extraction for images.
+    - [`train_classifier`](https://github.com/vguerra/vehicle-detection-tracking/blob/master/src/train_classifier.py): Implementing all logic needed to train our classifier.
+    - [`util.py`](https://github.com/vguerra/vehicle-detection-tracking/blob/master/src/util.py): Utilities for debugging purposes.
+    - [`windows.py`](https://github.com/vguerra/vehicle-detection-tracking/blob/master/src/windows.py): All code related to search windows and drawing boxes on images.
 ---
 
 ###Histogram of Oriented Gradients (HOG)

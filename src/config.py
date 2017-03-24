@@ -1,4 +1,4 @@
-DEBUG = False # Activate debugging utilities.
+DEBUG = True # Activate debugging utilities.
 COLOR_SPACE = 'YCrCb' # Can be RGB, HSV, LUV, HLS, YUV, YCrCb
 ORIENT = 9  # HOG orientations.
 PIX_PER_CELL = 8 # HOG pixels per cell.
