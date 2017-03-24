@@ -88,9 +88,13 @@ Ultimately I searched on two scales using YCrCb 3-channel HOG features plus spat
 
 ### Output Video
 
-#### 1. Provide a link to your final video output.  Your pipeline should perform reasonably well on the entire project video (somewhat wobbly or unstable bounding boxes are ok as long as you are identifying the vehicles most of the time with minimal false positives.)
-Here's a [link to my video result](./project_video.mp4)
+Now it is time to see all put together in action. Checkout this repository and at the root directory execute the following:
+```
+$> python src/VDT.py ./data
+```
+The [`output_project_video.mp4`](https://github.com/vguerra/vehicle-detection-tracking/blob/master/output_project_video.mp4) should look something like this:
 
+[![Project Video](https://img.youtube.com/vi/https://youtu.be/1tYMLZGV_l8/0.jpg)](https://youtu.be/https://youtu.be/1tYMLZGV_l8)
 
 #### 2. Describe how (and identify where in your code) you implemented some kind of filter for false positives and some method for combining overlapping bounding boxes.
 
