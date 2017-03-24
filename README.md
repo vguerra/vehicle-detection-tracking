@@ -94,7 +94,7 @@ $> python src/VDT.py ./data
 ```
 The [`output_project_video.mp4`](https://github.com/vguerra/vehicle-detection-tracking/blob/master/output_project_video.mp4) should look something like this:
 
-[![Project Video](https://img.youtube.com/vi/https://youtu.be/1tYMLZGV_l8/0.jpg)](https://youtu.be/https://youtu.be/1tYMLZGV_l8)
+[![Project Video](https://img.youtube.com/vi/https://youtu.be/1tYMLZGV_l8/0.jpg)](https://youtu.be/1tYMLZGV_l8)
 
 #### 2. Describe how (and identify where in your code) you implemented some kind of filter for false positives and some method for combining overlapping bounding boxes.
 
