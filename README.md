@@ -148,11 +148,23 @@ We basically iterate over all found rectangles and add [data to the heatmap](htt
  <img src="https://github.com/vguerra/vehicle-detection-tracking/blob/master/output_images/heatmap.png" width="350">
 </p>
 
+We can clearly see that the *hot* parts of the heatmap belong to the positions where the vehicles are found. So to remove false positives we simply [threshold](https://github.com/vguerra/vehicle-detection-tracking/blob/master/src/windows.py#L58-L70) the images.
+
+In order to stabilize drawing the rectangles over frames, we keep a small queue with heatmap objects that help us [average heatmap values](https://github.com/vguerra/vehicle-detection-tracking/blob/master/src/VDT.py#L31-L39) over the last 3 frames.
+
+Next, in order to figure out how many cars there are in the thresholded-heatmap we use the [`label`](https://github.com/vguerra/vehicle-detection-tracking/blob/master/src/VDT.py#L45) function from `scipy.ndimage.measurements`. And we pass that to our [drawing rectangles](https://github.com/vguerra/vehicle-detection-tracking/blob/master/src/windows.py#L24-L33) method.
+
+As well, we add some helping text that displays [how many vehicles](https://github.com/vguerra/vehicle-detection-tracking/blob/master/src/util.py#L45-L61) were found in the current frame.
+
+The final result would be then: 
+
+* Heatmap:
+<p align="center">
+ <img src="https://github.com/vguerra/vehicle-detection-tracking/blob/master/output_images/final.png" width="350">
+</p>
 
 ---
 
-
---- 
 ### Output Video
 
 Now it is time to see all put together in action. Checkout this repository and at the root directory execute the following:
