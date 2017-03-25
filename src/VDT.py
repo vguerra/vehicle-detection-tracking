@@ -56,13 +56,13 @@ if __name__ == '__main__':
     args = parse_args()
     vdt = VDT(args.data_path)
 
-    for idx in range(1, 7):
-        image = mpimg.imread('./test_images/test' + str(idx) + '.jpg')
-        vdt.process(image)
+    # for idx in range(1, 7):
+    #     image = mpimg.imread('./test_images/test' + str(idx) + '.jpg')
+    #     vdt.process(image)
 
-    # video = VideoFileClip("project_video.mp4")
-    # output_video = video.fl_image(vdf.process)
-    # output_video.write_videofile("output_project_video.mp4", audio=False)        
+    video = VideoFileClip("project_video.mp4")
+    output_video = video.fl_image(vdf.process)
+    output_video.write_videofile("output_project_video.mp4", audio=False)        
 
 
     

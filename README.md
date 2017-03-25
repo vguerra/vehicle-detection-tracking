@@ -158,10 +158,12 @@ As well, we add some helping text that displays [how many vehicles](https://gith
 
 The final result would be then: 
 
-* Heatmap:
+* Final result:
 <p align="center">
  <img src="https://github.com/vguerra/vehicle-detection-tracking/blob/master/output_images/final.png" width="350">
 </p>
+
+Note the text at the right top corner ;).
 
 ---
 
