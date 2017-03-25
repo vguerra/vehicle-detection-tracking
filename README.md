@@ -75,43 +75,29 @@ We compute the hog features for [all 3 channels](https://github.com/vguerra/vehi
 
 An visualization of a HOG image (for one channel) containing a car would be:
 
-* Image labeled with Vehicle class.
+* Original vehicle image.
 <p align="center">
  <img src="https://github.com/vguerra/vehicle-detection-tracking/blob/master/output_images/no-hog.png" width="350">
 </p>
 
-* Image labeled wit No-Vehicle class.
+* HOG features.
 <p align="center">
  <img src="https://github.com/vguerra/vehicle-detection-tracking/blob/master/output_images/hog.png" width="350">
 </p>
 
+Once all three parts of the feature vector are computed we can proceed to train our classifier.
 
-#### 1. Explain how (and identify where in your code) you extracted HOG features from the training images.
+For the training part, the following steps are followed:
+* [Standarize features](https://github.com/vguerra/vehicle-detection-tracking/blob/master/src/train_classifier.py#L94-L96) by using a StandardScaler object form sklearn. This is done so that no feature dominates the objective function, which could have bad effects when learning the model parameters.
+* [Shuffle and split the data set](https://github.com/vguerra/vehicle-detection-tracking/blob/master/src/train_classifier.py#L102-L104) into training data and test data. We train our model using 80% of the whole data set and compute accuracy score on the additional 20%.
 
-The code for this step is contained in the first code cell of the IPython notebook (or in lines # through # of the file called `some_file.py`).  
-
-I started by reading in all the `vehicle` and `non-vehicle` images.  Here is an example of one of each of the `vehicle` and `non-vehicle` classes:
-
-![alt text][image1]
-
-I then explored different color spaces and different `skimage.hog()` parameters (`orientations`, `pixels_per_cell`, and `cells_per_block`).  I grabbed random images from each of the two classes and displayed them to get a feel for what the `skimage.hog()` output looks like.
-
-Here is an example using the `YCrCb` color space and HOG parameters of `orientations=8`, `pixels_per_cell=(8, 8)` and `cells_per_block=(2, 2)`:
-
-
-![alt text][image2]
-
-#### 2. Explain how you settled on your final choice of HOG parameters.
-
-I tried various combinations of parameters and...
-
-#### 3. Describe how (and identify where in your code) you trained a classifier using your selected HOG features (and color features if you used them).
-
-I trained a linear SVM using...
+As you can imagine, the whole process we just described to train our classifier is rather computational expensive. So once we have gone through this process we [cache](https://github.com/vguerra/vehicle-detection-tracking/blob/master/src/train_classifier.py#L34-L48) the classifier and the scaler to be used in future runs.
 
 ---
 
 ### Sliding Window Search
+
+Once our classifier and scaler objects are ready. We can start processing images from the video.
 
 #### 1. Describe how (and identify where in your code) you implemented a sliding window search.  How did you decide what scales to search and how much to overlap windows?
 
