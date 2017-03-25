@@ -6,6 +6,7 @@
 * [The Code](#the-code)
 * [Histogram of Oriented Gradients](#histogram-of-oriented-gradients)
 * [Sliding Window Search](#sliding-window-search)
+* [Filtering False Positives]()
 * [Output video](#output-video)
 * [Discussion](#discussion)
 
@@ -111,18 +112,16 @@ Some remarks about this process:
 
 * In terms of overlaping of windows: Each window will cover a total of 8 blocks and at each step we advance 2 blocks. That means that between two adjacent windows, 6 blocks will overlap, hence our overlaping is `6 / 8 = 0.75` ( 75 %).
 
+If we draw all areas of the image that are searched we get:
 
-#### 1. Describe how (and identify where in your code) you implemented a sliding window search.  How did you decide what scales to search and how much to overlap windows?
+* HOG features.
+<p align="center">
+ <img src="https://github.com/vguerra/vehicle-detection-tracking/blob/master/output_images/search_areas.png" width="350">
+</p>
 
-I decided to search random window positions at random scales all over the image and came up with this (ok just kidding I didn't actually ;):
+--- 
 
-![alt text][image3]
-
-#### 2. Show some examples of test images to demonstrate how your pipeline is working.  What did you do to optimize the performance of your classifier?
-
-Ultimately I searched on two scales using YCrCb 3-channel HOG features plus spatially binned color and histograms of color in the feature vector, which provided a nice result.  Here are some example images:
-
-![alt text][image4]
+### Filtering of False Positives
 
 ---
 
