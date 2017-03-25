@@ -49,7 +49,8 @@ The project is organized as follows:
 
 The [first step in the pipeline](https://github.com/vguerra/vehicle-detection-tracking/blob/master/src/VDT.py#L20) is to have a classifier and a feature scaler. This two objects help us later in the pipeline to convert the video frames to an array of suitable features our classifier can take in so that we can detect the prescence of vehicles.
 
-To train our classifier we have two classes of labeled images. Images where vehicles appear, and image where don't. For example:
+To train our classifier we have two classes of labeled images. Images where vehicles appear, and image where don't. The data sets for both labels are [vehicles.zip](https://s3.amazonaws.com/udacity-sdc/Vehicle_Tracking/vehicles.zip) and [non-vehicles.zip](https://s3.amazonaws.com/udacity-sdc/Vehicle_Tracking/non-vehicles.zip).
+ For example:
 
 * Image labeled with Vehicle class.
 <p align="center">
@@ -177,20 +178,16 @@ The [`output_project_video.mp4`](https://github.com/vguerra/vehicle-detection-tr
 
 [![Project Video](https://img.youtube.com/vi/1tYMLZGV_l8/0.jpg)](https://youtu.be/1tYMLZGV_l8)
 
-#### 2. Describe how (and identify where in your code) you implemented some kind of filter for false positives and some method for combining overlapping bounding boxes.
-
-I recorded the positions of positive detections in each frame of the video.  From the positive detections I created a heatmap and then thresholded that map to identify vehicle positions.  I then used `scipy.ndimage.measurements.label()` to identify individual blobs in the heatmap.  I then assumed each blob corresponded to a vehicle.  I constructed bounding boxes to cover the area of each blob detected.  
-
-Here's an example result showing the heatmap from a series of frames of video, the result of `scipy.ndimage.measurements.label()` and the bounding boxes then overlaid on the last frame of video:
-
-<Heatmap examples>
-
-Here is the output of `scipy.ndimage.measurements.label()` on the integrated heatmap from all six frames:
-![alt text][image6]
-
-Here the resulting bounding boxes are drawn onto the last frame in the series:
-![alt text][image7]
-
 ---
 
 ### Discussion
+
+Some points I would like to discuess:
+
+* The classifier could had been trainned better (even though when training a high accuracy was reported). Among things we could have done to improve it when using it on the video frames is to clean up a bit better the training data used. As well, we did not take into account the data set of images released by udacity, this for sure could improve the performance of the classifier when using it in unseen data.
+
+* Given that our classifier was detecting vehicles in some regions where they were none, one action we took to fight this was to do more than 1 pass over the search area using 2 more scales. This improved significantly our vehicle detection but degraded the time to process each frame notably :(. So again, it might be worth to look into the point mentioned above.
+
+* Explore a bit more how the whole pipeline could perform if we dont use the spatial features and the color histogram features. This could reduce the time of processing.
+
+* All in all, this was a really fun project :) and results are quite impressive.
