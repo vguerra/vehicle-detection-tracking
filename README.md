@@ -114,10 +114,26 @@ Some remarks about this process:
 
 If we draw all areas of the image that are searched we get:
 
-* HOG features.
+* All search areas.
 <p align="center">
  <img src="https://github.com/vguerra/vehicle-detection-tracking/blob/master/output_images/search_areas.png" width="350">
 </p>
+
+But we are going to keep those rectangles where our classifier predicts there is a car. Then, for the previous example, the rectangles we keep are:
+
+* Predicted vehicles.
+<p align="center">
+ <img src="https://github.com/vguerra/vehicle-detection-tracking/blob/master/output_images/predicted.png" width="350">
+</p>
+
+In some cases, our classifier predicts that there are vehicles in areas where they are not. For example here:
+
+* Predicted vehicles with false positives.
+<p align="center">
+ <img src="https://github.com/vguerra/vehicle-detection-tracking/blob/master/output_images/predicted_with_false_positives.png" width="350">
+</p>
+
+Therefore we need to tackle this problem by filtering false positives.
 
 --- 
 
