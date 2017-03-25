@@ -52,12 +52,12 @@ To train our classifier we have two classes of labeled images. Images where vehi
 
 * Image labeled with Vehicle class.
 <p align="center">
- <img src="https://github.com/vguerra/vehicle-detection-tracking/blob/master/output_images/vehicle.png" width="500">
+ <img src="https://github.com/vguerra/vehicle-detection-tracking/blob/master/output_images/vehicle.png" width="350">
 </p>
 
 * Image labeled wit No-Vehicle class.
 <p align="center">
- <img src="https://github.com/vguerra/vehicle-detection-tracking/blob/master/output_images/no-vehicle.png" width="500">
+ <img src="https://github.com/vguerra/vehicle-detection-tracking/blob/master/output_images/no-vehicle.png" width="350">
 </p>
 
 #### 1. Explain how (and identify where in your code) you extracted HOG features from the training images.
