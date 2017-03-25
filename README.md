@@ -97,7 +97,20 @@ As you can imagine, the whole process we just described to train our classifier 
 
 ### Sliding Window Search
 
-Once our classifier and scaler objects are ready. We can start processing images from the video.
+Once our classifier and scaler objects are ready. We can start [processing images](https://github.com/vguerra/vehicle-detection-tracking/blob/master/src/VDT.py#L22-L52) from the video. First of all we need to find all possible regions in the image where our classifier detects cars. For that, we feed our classifier with regions of the original frame in an intelligent way. Passing all regions of the image frame is kind of useless.
+
+Therefore we implement a [sliding window search](https://github.com/vguerra/vehicle-detection-tracking/blob/master/src/cars.py#L11-L87) algorithm that will select wich parts of the image to feed the classifier. Those regions that successfuly detect a car, will be used later in the pipeline.
+
+Some remarks about this process:
+
+* First we restric the search to the road region in the image. It is unlikely that cars will be found out of the road, therefore we [only search](https://github.com/vguerra/vehicle-detection-tracking/blob/master/src/cars.py#L28) in the range of `[400, 656]` in the vertical axis.
+
+* We only compute the [HOG features](https://github.com/vguerra/vehicle-detection-tracking/blob/master/src/cars.py#L51-L53) for the region where we will conduct the sliding search, this speeds up the process. Unfortunaltely the [spatial and color histogram features](https://github.com/vguerra/vehicle-detection-tracking/blob/master/src/cars.py#L73-L74) need to be computed for each window we evaluate.
+
+* At first, we started experimenting with scale of `1.5`. But even after some filtering of false possitives, some windows endeed up being marked as having a vehicle, which was not true. Therefore we experimented with adding two more scales: `1.0 and 2.0`. This gave us a much better result after false negative filtering. Unfortunately, processing time of the image incresases since there are more windows to evaluate.
+
+* In terms of overlaping of windows: Each window will cover a total of 8 blocks and at each step we advance 2 blocks. That means that between two adjacent windows, 6 blocks will overlap, hence our overlaping is `6 / 8 = 0.75` ( 75 %).
+
 
 #### 1. Describe how (and identify where in your code) you implemented a sliding window search.  How did you decide what scales to search and how much to overlap windows?
 
