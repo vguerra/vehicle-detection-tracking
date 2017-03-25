@@ -60,6 +60,32 @@ To train our classifier we have two classes of labeled images. Images where vehi
  <img src="https://github.com/vguerra/vehicle-detection-tracking/blob/master/output_images/no-vehicle.png" width="350">
 </p>
 
+So given a list of images that belong to the same class, we [extract the features](https://github.com/vguerra/vehicle-detection-tracking/blob/master/src/features.py#L147-L189). And for [each image](https://github.com/vguerra/vehicle-detection-tracking/blob/master/src/features.py#L90-L141) a feauture vector is computed. THe feature vector is formed of three parts:
+
+* [Spatial Binning of Color](https://github.com/vguerra/vehicle-detection-tracking/blob/master/src/features.py#L30-L42): We found useful to have included raw pixel values in the feature vector. Since including all pixels in full resolution would take a lot of space and is not necesary to capture useful information in this case, we resize the image to a size of 32x32 and flatten it.
+
+* [Color Histogram Features](https://github.com/vguerra/vehicle-detection-tracking/blob/master/src/features.py#L68-L85): For each color channel, we compute a histogram of colors using 32 bins. Regions in the images where cars appear will have similar color histograms to the ones of the cars themselves.
+
+* [HOG features](https://github.com/vguerra/vehicle-detection-tracking/blob/master/src/features.py#L45-L66): The most relevant part of the feature vector are the HOG features. For this we use the [`hog`](https://github.com/vguerra/vehicle-detection-tracking/blob/master/src/features.py#L61-L66) function provided by skimage package. Before computing all features mentioned before and HOG features we first convert the image to [another color space](https://github.com/vguerra/vehicle-detection-tracking/blob/master/src/features.py#L6-L27). After experimenting with different color spaces, the one that gave us better result was `YCrCb`. So the images passed to the hog function are in this color space. About the rest of the parameters for the hog function the values are:
+    - `orientations`: value of 9. At this small scale we don't need a higher accuracy on the bins used for the orientation's histogram.
+    - `pixels_per_cell`: value of 8. This indicates our cells are a square of 8x8 pixels.
+    - `cells_per_block`: value of 2. Each block is composed of 2x2 cells.
+
+We compute the hog features for [all 3 channels](https://github.com/vguerra/vehicle-detection-tracking/blob/master/src/features.py#L129-L135) in the image.
+
+An visualization of a HOG image (for one channel) containing a car would be:
+
+* Image labeled with Vehicle class.
+<p align="center">
+ <img src="https://github.com/vguerra/vehicle-detection-tracking/blob/master/output_images/no-hog.png" width="350">
+</p>
+
+* Image labeled wit No-Vehicle class.
+<p align="center">
+ <img src="https://github.com/vguerra/vehicle-detection-tracking/blob/master/output_images/hog.png" width="350">
+</p>
+
+
 #### 1. Explain how (and identify where in your code) you extracted HOG features from the training images.
 
 The code for this step is contained in the first code cell of the IPython notebook (or in lines # through # of the file called `some_file.py`).  
