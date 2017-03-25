@@ -40,10 +40,25 @@ The project is organized as follows:
     - [`features.py`](https://github.com/vguerra/vehicle-detection-tracking/blob/master/src/features.py): All code related to feature extraction for images.
     - [`train_classifier`](https://github.com/vguerra/vehicle-detection-tracking/blob/master/src/train_classifier.py): Implementing all logic needed to train our classifier.
     - [`util.py`](https://github.com/vguerra/vehicle-detection-tracking/blob/master/src/util.py): Utilities for debugging purposes.
+    - [`VDT.py`](https://github.com/vguerra/vehicle-detection-tracking/blob/master/src/VDT.py): Higher level implementation of the pipeline.
     - [`windows.py`](https://github.com/vguerra/vehicle-detection-tracking/blob/master/src/windows.py): All code related to drawing boxes on images.
 ---
 
 ### Histogram of Oriented Gradients
+
+The [first step in the pipeline](https://github.com/vguerra/vehicle-detection-tracking/blob/master/src/VDT.py#L20) is to have a classifier and a feature scaler. This two objects help us later in the pipeline to convert the video frames to an array of suitable features our classifier can take in so that we can detect the prescence of vehicles.
+
+To train our classifier we have two classes of labeled images. Images where vehicles appear, and image where don't. For example:
+
+* Image labeled with Vehicle class.
+<p align="center">
+ <img src="https://github.com/vguerra/vehicle-detection-tracking/blob/master/output_images/vehicle.jpg" width="500">
+</p>
+
+* Image labeled wit No-Vehicle class.
+<p align="center">
+ <img src="https://github.com/vguerra/vehicle-detection-tracking/blob/master/output_images/no-vehicle.jpg" width="500">
+</p>
 
 #### 1. Explain how (and identify where in your code) you extracted HOG features from the training images.
 

@@ -14,7 +14,7 @@ import os.path
 
 def load_model(pickle_file):
     """
-    Loads a Classifier.
+    Loads a Classifier and a Scaler.
 
     Args:
         pickel_file: Path to pickel file.
