@@ -6,7 +6,7 @@
 * [The Code](#the-code)
 * [Histogram of Oriented Gradients](#histogram-of-oriented-gradients)
 * [Sliding Window Search](#sliding-window-search)
-* [Filtering False Positives]()
+* [Filtering False Positives](#filtering-false-positives)
 * [Output video](#output-video)
 * [Discussion](#discussion)
 
@@ -133,14 +133,26 @@ In some cases, our classifier predicts that there are vehicles in areas where th
  <img src="https://github.com/vguerra/vehicle-detection-tracking/blob/master/output_images/predicted_with_false_positives.png" width="350">
 </p>
 
-Therefore we need to tackle this problem by filtering false positives.
+Note the two boxes at the left of the image. False positives. Therefore we need to tackle this problem by filtering false positives.
 
 --- 
 
-### Filtering of False Positives
+### Filtering False Positives
+
+In order to fight false positives we are going to compute a heatmap. A nice consequence of having this heatmap is that we will as well combine overlaping regions where a vehicle was detected.
+
+We basically iterate over all found rectangles and add [data to the heatmap](https://github.com/vguerra/vehicle-detection-tracking/blob/master/src/windows.py#L50-L56). If we take the previous image (the one with false positives) and compute its heatmap we would end up with something like:
+
+* Heatmap:
+<p align="center">
+ <img src="https://github.com/vguerra/vehicle-detection-tracking/blob/master/output_images/heatmap.png" width="350">
+</p>
+
 
 ---
 
+
+--- 
 ### Output Video
 
 Now it is time to see all put together in action. Checkout this repository and at the root directory execute the following:
